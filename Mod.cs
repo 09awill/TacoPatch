@@ -19,6 +19,9 @@ using Unity.Entities.UniversalDelegates;
 using IngredientLib.Ingredient.Items;
 using KitchenTacoTime.Customs.Tacos.Chicken;
 using KitchenTacoTime.Customs.Tacos.Pork;
+using KitchenTacoTime.Customs.Tacos.Steak;
+using TMPro;
+using KitchenLib.References;
 
 // Namespace should have "Kitchen" in the beginning
 namespace KitchenMyMod
@@ -30,7 +33,7 @@ namespace KitchenMyMod
         // Mod Version must follow semver notation e.g. "1.2.3"
         public const string MOD_GUID = "Madvion.PlateUp.TacoPatch";
         public const string MOD_NAME = "Taco Patch";
-        public const string MOD_VERSION = "0.1.0";
+        public const string MOD_VERSION = "0.1.1";
         public const string MOD_AUTHOR = "Madvion";
         public const string MOD_GAMEVERSION = ">=1.1.4";
         // Game version this mod is designed for in semver
@@ -91,7 +94,8 @@ namespace KitchenMyMod
                 SetupChickenTacoPlated();
                 SetupPorkTaco();
                 SetupPorkTacoPlated();
-
+                SetupSteakTaco();
+                SetupSteakTacoPlated();
             };
         }
 
@@ -134,7 +138,13 @@ namespace KitchenMyMod
                 MaterialUtils.ApplyMaterialToChild(tacos, $"Shell{i}/FishVisual/Head", "Raw Fillet Skin");
 
             }
-            MaterialUtils.ApplyMaterialToChild(tacos, "Shell_Holder", "Plastic");
+            MaterialUtils.ApplyMaterialToChild(tacos, "Shell_Holder", "Plastic - Blue");
+            
+            ItemGroupView grp = ft.Prefab.GetComponent<ItemGroupView>();
+            if(grp == null) grp = ft.Prefab.AddComponent<ItemGroupView>();
+            GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
+            ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
+            ComponentAccesserUtil.AddColourBlindLabels(grp, (ft, "FT"));
         }
         private void SetupFishTacoPlated()
         {
@@ -150,8 +160,14 @@ namespace KitchenMyMod
                 MaterialUtils.ApplyMaterialToChild(tacos, $"Shell{i}/FishVisual/Head", "Raw Fillet Skin");
 
             }
-            MaterialUtils.ApplyMaterialToChild(tacos, "Shell_Holder", "Plastic");
+            MaterialUtils.ApplyMaterialToChild(tacos, "Shell_Holder", "Plastic - Blue");
             MaterialUtils.ApplyMaterialToChild(ft.Prefab, "Plate/Plate/Cylinder", "Plate", "Plate - Ring");
+
+            ItemGroupView grp = ft.Prefab.GetComponent<ItemGroupView>();
+            if (grp == null) grp = ft.Prefab.AddComponent<ItemGroupView>();
+            GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
+            ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
+            ComponentAccesserUtil.AddColourBlindLabels(grp, (GetModdedGDO<ItemGroup, Tacos_Fish>(), "FT"));
         }
 
         private void SetupChickenTaco()
@@ -168,7 +184,13 @@ namespace KitchenMyMod
                 MaterialUtils.ApplyMaterialToChild(tacos, $"Shell{i}/Chicken 3", CustomMaterials.CustomMaterialsIndex["IngredientLib - \"Cooked Chicken\""].name);
                 MaterialUtils.ApplyMaterialToChild(tacos, $"Shell{i}/Chicken 4", CustomMaterials.CustomMaterialsIndex["IngredientLib - \"Cooked Chicken\""].name);
             }
-            MaterialUtils.ApplyMaterialToChild(tacos, "Shell_Holder", "Plastic");
+            MaterialUtils.ApplyMaterialToChild(tacos, "Shell_Holder", "Clothing Soft Pink");
+
+            ItemGroupView grp = ft.Prefab.GetComponent<ItemGroupView>();
+            if (grp == null) grp = ft.Prefab.AddComponent<ItemGroupView>();
+            GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
+            ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
+            ComponentAccesserUtil.AddColourBlindLabels(grp, (ft, "CT"));
         }
         private void SetupChickenTacoPlated()
         {
@@ -186,8 +208,16 @@ namespace KitchenMyMod
                 MaterialUtils.ApplyMaterialToChild(tacos, $"Shell{i}/Chicken 4", CustomMaterials.CustomMaterialsIndex["IngredientLib - \"Cooked Chicken\""].name);
 
             }
-            MaterialUtils.ApplyMaterialToChild(tacos, "Shell_Holder", "Plastic");
+            MaterialUtils.ApplyMaterialToChild(tacos, "Shell_Holder", "Clothing Soft Pink");
             MaterialUtils.ApplyMaterialToChild(ft.Prefab, "Plate/Plate/Cylinder", "Plate", "Plate - Ring");
+
+            ItemGroupView grp = ft.Prefab.GetComponent<ItemGroupView>();
+            if (grp == null) grp = ft.Prefab.AddComponent<ItemGroupView>();
+            GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
+            ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
+            ComponentAccesserUtil.AddColourBlindLabels(grp, (GetModdedGDO<ItemGroup, Tacos_Chicken>(), "CT"));
+
+
         }
 
         private void SetupPorkTaco()
@@ -201,7 +231,14 @@ namespace KitchenMyMod
                 MaterialUtils.ApplyMaterialToChild(tacos, $"Shell{i}/pork", CustomMaterials.CustomMaterialsIndex["IngredientLib - \"Bacon\""].name, CustomMaterials.CustomMaterialsIndex["IngredientLib - \"Bacon Fat\""].name);
                 MaterialUtils.ApplyMaterialToChild(tacos, $"Shell{i}/pork", CustomMaterials.CustomMaterialsIndex["IngredientLib - \"Bacon\""].name, CustomMaterials.CustomMaterialsIndex["IngredientLib - \"Bacon Fat\""].name);
             }
-            MaterialUtils.ApplyMaterialToChild(tacos, "Shell_Holder", "Plastic");
+            MaterialUtils.ApplyMaterialToChild(tacos, "Shell_Holder", "Plastic - Red");
+
+            ItemGroupView grp = ft.Prefab.GetComponent<ItemGroupView>();
+            if (grp == null) grp = ft.Prefab.AddComponent<ItemGroupView>();
+            GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
+            ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
+            ComponentAccesserUtil.AddColourBlindLabels(grp, (ft, "PT"));
+
         }
         private void SetupPorkTacoPlated()
         {
@@ -216,36 +253,92 @@ namespace KitchenMyMod
                 MaterialUtils.ApplyMaterialToChild(tacos, $"Shell{i}/pork", CustomMaterials.CustomMaterialsIndex["IngredientLib - \"Bacon\""].name, CustomMaterials.CustomMaterialsIndex["IngredientLib - \"Bacon Fat\""].name);
             }
 
-            MaterialUtils.ApplyMaterialToChild(tacos, "Shell_Holder", "Plastic");
+            MaterialUtils.ApplyMaterialToChild(tacos, "Shell_Holder", "Plastic - Red");
             MaterialUtils.ApplyMaterialToChild(ft.Prefab, "Plate/Plate/Cylinder","Plate", "Plate - Ring");
+
+            ItemGroupView grp = ft.Prefab.GetComponent<ItemGroupView>();
+            if (grp == null) grp = ft.Prefab.AddComponent<ItemGroupView>();
+            GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
+            ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
+            ComponentAccesserUtil.AddColourBlindLabels(grp, (GetModdedGDO<ItemGroup, Tacos_Pork>(), "PT"));
+        }
+
+        private void SetupSteakTaco()
+        {
+            ItemGroup ft = GetModdedGDO<ItemGroup, Tacos_Steak>();
+            ft.Prefab = Bundle.LoadAsset<GameObject>("steak tacos");
+            GameObject tacos = ft.Prefab.GetChild("Steak Tacos");
+            for (int i = 1; i <= 3; i++)
+            {
+                MaterialUtils.ApplyMaterialToChild(tacos, $"Shell{i}", "Pie - Mushroom");
+                MaterialUtils.ApplyMaterialToChild(tacos, $"Shell{i}/Steak", "Soup - Meat", "Meat Piece Cooked");
+            }
+            MaterialUtils.ApplyMaterialToChild(tacos, "Shell_Holder", CustomMaterials.CustomMaterialsIndex["IngredientLib - \"Chocolate Dark\""].name);
+
+            ItemGroupView grp = ft.Prefab.GetComponent<ItemGroupView>();
+            if (grp == null) grp = ft.Prefab.AddComponent<ItemGroupView>();
+            GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
+            ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
+            ComponentAccesserUtil.AddColourBlindLabels(grp, (ft, "ST"));
+        }
+        private void SetupSteakTacoPlated()
+        {
+
+            ItemGroup ft = GetModdedGDO<ItemGroup, Tacos_Steak_Plated>();
+            ft.Prefab = Bundle.LoadAsset<GameObject>("steak tacos - plated");
+            GameObject tacos = ft.Prefab.GetChild("Steak Tacos");
+            for (int i = 1; i <= 3; i++)
+            {
+                MaterialUtils.ApplyMaterialToChild(tacos, $"Shell{i}", "Pie - Mushroom");
+                MaterialUtils.ApplyMaterialToChild(tacos, $"Shell{i}/Steak", "Soup - Meat", "Meat Piece Cooked");
+            }
+
+            MaterialUtils.ApplyMaterialToChild(tacos, "Shell_Holder", CustomMaterials.CustomMaterialsIndex["IngredientLib - \"Chocolate Dark\""].name);
+            MaterialUtils.ApplyMaterialToChild(ft.Prefab, "Plate/Plate/Cylinder", "Plate", "Plate - Ring");
+
+            ItemGroupView grp = ft.Prefab.GetComponent<ItemGroupView>();
+            if (grp == null) grp = ft.Prefab.AddComponent<ItemGroupView>();
+            GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
+            ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
+            ComponentAccesserUtil.AddColourBlindLabels(grp, (GetModdedGDO<ItemGroup, Tacos_Steak>(), "ST"));
+
         }
 
         internal class ComponentAccesserUtil : ItemGroupView
         {
             private static FieldInfo componentGroupField = ReflectionUtils.GetField<ItemGroupView>("ComponentGroups");
             private static FieldInfo componentLabelsField = ReflectionUtils.GetField<ItemGroupView>("ComponentLabels");
+            private static FieldInfo labelsField = ReflectionUtils.GetField<ItemGroup>("Labels");
+
 
 
 
             public static void AddComponent(ItemGroupView viewToAddTo, params (Item item, GameObject gameObject)[] addedGroups)
             {
                 List<ComponentGroup> componentGroups = componentGroupField.GetValue(viewToAddTo) as List<ComponentGroup>;
-
+                Mod.LogWarning("Retrieved component groups from reflection utils");
                 foreach (var group in addedGroups)
                 {
+                    Mod.LogWarning($"Adding component {group.item} with game object {group.gameObject}");
+                    if(componentGroups == null) componentGroups = new List<ComponentGroup>();
                     componentGroups.Add(new()
                     {
                         Item = group.item,
                         GameObject = group.gameObject
                     });
                 }
+                Mod.LogWarning($"Setting value");
+
                 componentGroupField.SetValue(viewToAddTo, componentGroups);
+                Mod.LogWarning($"Set value, finishing");
+
 
 
             }
             public static void AddColourBlindLabels(ItemGroupView viewToAddTo, params (Item item, string colourBlindName)[] addedGroups)
             {
                 List<ColourBlindLabel> componentGroups = componentLabelsField.GetValue(viewToAddTo) as List<ColourBlindLabel>;
+
                 foreach (var group in addedGroups)
                 {
                     componentGroups.Add(new()
@@ -255,6 +348,20 @@ namespace KitchenMyMod
                     });
                 }
                 componentLabelsField.SetValue(viewToAddTo, componentGroups);
+            }
+
+            public static void AddLabels(ItemGroup groupToAddTo, params (Item item, string colourBlindName)[] addedGroups)
+            {
+                List<ColourBlindLabel> labels = labelsField.GetValue(groupToAddTo) as List<ColourBlindLabel>;
+                foreach (var group in addedGroups)
+                {
+                    labels.Add(new()
+                    {
+                        Item = group.item,
+                        Text = group.colourBlindName
+                    });
+                }
+                componentLabelsField.SetValue(groupToAddTo, labels);
             }
         }
 
