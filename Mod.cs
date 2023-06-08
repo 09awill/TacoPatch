@@ -33,7 +33,7 @@ namespace KitchenMyMod
         // Mod Version must follow semver notation e.g. "1.2.3"
         public const string MOD_GUID = "Madvion.PlateUp.TacoPatch";
         public const string MOD_NAME = "Taco Patch";
-        public const string MOD_VERSION = "0.1.1";
+        public const string MOD_VERSION = "0.1.2";
         public const string MOD_AUTHOR = "Madvion";
         public const string MOD_GAMEVERSION = ">=1.1.4";
         // Game version this mod is designed for in semver
@@ -82,20 +82,19 @@ namespace KitchenMyMod
 
             // Register custom GDOs
             AddGameData();
-
             // Perform actions when game data is built
             Events.BuildGameDataEvent += delegate (object s, BuildGameDataEventArgs args)
             {
                 if (!args.firstBuild) return;
                 FixFishProvider();
                 SetupFishTaco();
-                SetupFishTacoPlated();
+                SetupFishTacoPlated(args.gamedata);
                 SetupChickenTaco();
-                SetupChickenTacoPlated();
+                SetupChickenTacoPlated(args.gamedata);
                 SetupPorkTaco();
-                SetupPorkTacoPlated();
+                SetupPorkTacoPlated(args.gamedata);
                 SetupSteakTaco();
-                SetupSteakTacoPlated();
+                SetupSteakTacoPlated(args.gamedata);
             };
         }
 
@@ -146,7 +145,7 @@ namespace KitchenMyMod
             ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
             ComponentAccesserUtil.AddColourBlindLabels(grp, (ft, "FT"));
         }
-        private void SetupFishTacoPlated()
+        private void SetupFishTacoPlated(GameData pBuildGameData)
         {
 
             ItemGroup ft = GetModdedGDO<ItemGroup, Tacos_Fish_Plated>();
@@ -168,6 +167,8 @@ namespace KitchenMyMod
             GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
             ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
             ComponentAccesserUtil.AddColourBlindLabels(grp, (GetModdedGDO<ItemGroup, Tacos_Fish>(), "FT"));
+            ItemGroupViewUtils.AddSideContainer(pBuildGameData, ft, grp);
+
         }
 
         private void SetupChickenTaco()
@@ -192,11 +193,12 @@ namespace KitchenMyMod
             ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
             ComponentAccesserUtil.AddColourBlindLabels(grp, (ft, "CT"));
         }
-        private void SetupChickenTacoPlated()
+        private void SetupChickenTacoPlated(GameData pBuildGameData)
         {
 
             ItemGroup ft = GetModdedGDO<ItemGroup, Tacos_Chicken_Plated>();
             ft.Prefab = Bundle.LoadAsset<GameObject>("chicken tacos - plated");
+
             GameObject tacos = ft.Prefab.GetChild("Chicken Tacos");
             for (int i = 1; i <= 3; i++)
             {
@@ -216,6 +218,7 @@ namespace KitchenMyMod
             GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
             ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
             ComponentAccesserUtil.AddColourBlindLabels(grp, (GetModdedGDO<ItemGroup, Tacos_Chicken>(), "CT"));
+            ItemGroupViewUtils.AddSideContainer(pBuildGameData, ft, grp);
 
 
         }
@@ -240,11 +243,12 @@ namespace KitchenMyMod
             ComponentAccesserUtil.AddColourBlindLabels(grp, (ft, "PT"));
 
         }
-        private void SetupPorkTacoPlated()
+        private void SetupPorkTacoPlated(GameData pBuildGameData)
         {
 
             ItemGroup ft = GetModdedGDO<ItemGroup, Tacos_Pork_Plated>();
             ft.Prefab = Bundle.LoadAsset<GameObject>("pork tacos - plated");
+
             GameObject tacos = ft.Prefab.GetChild("Pork Tacos");
             for (int i = 1; i <= 3; i++)
             {
@@ -261,6 +265,8 @@ namespace KitchenMyMod
             GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
             ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
             ComponentAccesserUtil.AddColourBlindLabels(grp, (GetModdedGDO<ItemGroup, Tacos_Pork>(), "PT"));
+            ItemGroupViewUtils.AddSideContainer(pBuildGameData, ft, grp);
+
         }
 
         private void SetupSteakTaco()
@@ -281,7 +287,7 @@ namespace KitchenMyMod
             ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
             ComponentAccesserUtil.AddColourBlindLabels(grp, (ft, "ST"));
         }
-        private void SetupSteakTacoPlated()
+        private void SetupSteakTacoPlated(GameData pBuildGameData)
         {
 
             ItemGroup ft = GetModdedGDO<ItemGroup, Tacos_Steak_Plated>();
@@ -301,6 +307,7 @@ namespace KitchenMyMod
             GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
             ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
             ComponentAccesserUtil.AddColourBlindLabels(grp, (GetModdedGDO<ItemGroup, Tacos_Steak>(), "ST"));
+            ItemGroupViewUtils.AddSideContainer(pBuildGameData, ft, grp);
 
         }
 
