@@ -14,7 +14,7 @@ using static Kitchen.ItemGroupView;
 
 namespace KitchenTacoModFix
 {
-    
+    /*
     [HarmonyPatch]
     public class ItemGroupViewPatch
     {
@@ -38,5 +38,6 @@ namespace KitchenTacoModFix
             return true;
         }
     }
+    */
     
 }
