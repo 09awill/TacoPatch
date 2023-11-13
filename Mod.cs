@@ -3,37 +3,28 @@ using KitchenLib.Event;
 using KitchenMods;
 using System.Reflection;
 using UnityEngine;
-using KitchenTacoTime;
-using KitchenTacoTime.Customs.Tacos.Fish;
-using KitchenTacoTime.Customs;
 using KitchenData;
 using KitchenLib.Customs;
 using KitchenLib.Utils;
 using System.Linq;
-using Unity.Entities;
 using UnityEngine.VFX;
 using KitchenLib.Colorblind;
 using Kitchen;
 using System.Collections.Generic;
-using Unity.Entities.UniversalDelegates;
-using IngredientLib.Ingredient.Items;
-using KitchenTacoTime.Customs.Tacos.Chicken;
-using KitchenTacoTime.Customs.Tacos.Pork;
-using KitchenTacoTime.Customs.Tacos.Steak;
-using TMPro;
+using System;
 using KitchenLib.References;
 
 // Namespace should have "Kitchen" in the beginning
-namespace KitchenMyMod
+namespace KitchenPatchmaster
 {
     public class Mod : BaseMod, IModSystem
     {
         // GUID must be unique and is recommended to be in reverse domain name notation
         // Mod Name is displayed to the player and listed in the mods menu
         // Mod Version must follow semver notation e.g. "1.2.3"
-        public const string MOD_GUID = "Madvion.PlateUp.TacoPatch";
-        public const string MOD_NAME = "Taco Patch";
-        public const string MOD_VERSION = "0.1.2";
+        public const string MOD_GUID = "Madvion.PlateUp.Patchmaster";
+        public const string MOD_NAME = "Patchmaster";
+        public const string MOD_VERSION = "0.1.7";
         public const string MOD_AUTHOR = "Madvion";
         public const string MOD_GAMEVERSION = ">=1.1.4";
         // Game version this mod is designed for in semver
@@ -79,28 +70,99 @@ namespace KitchenMyMod
             LogInfo("Attempting to load asset bundle...");
             Bundle = mod.GetPacks<AssetBundleModPack>().SelectMany(e => e.AssetBundles).First();
             LogInfo("Done loading asset bundle.");
-
             // Register custom GDOs
             AddGameData();
             // Perform actions when game data is built
             Events.BuildGameDataEvent += delegate (object s, BuildGameDataEventArgs args)
             {
                 if (!args.firstBuild) return;
-                FixFishProvider();
-                SetupFishTaco();
-                SetupFishTacoPlated(args.gamedata);
-                SetupChickenTaco();
-                SetupChickenTacoPlated(args.gamedata);
-                SetupPorkTaco();
-                SetupPorkTacoPlated(args.gamedata);
-                SetupSteakTaco();
-                SetupSteakTacoPlated(args.gamedata);
+                ItemGroup fishTacoPlated = (ItemGroup)GDOUtils.GetCustomGameDataObject(834629987)?.GameDataObject;
+                if (fishTacoPlated != null)
+                {
+                    FixFishProvider();
+                    SetupFishTaco();
+                    SetupFishTacoPlated(args.gamedata);
+                    SetupChickenTaco();
+                    SetupChickenTacoPlated(args.gamedata);
+                    SetupPorkTaco();
+                    SetupPorkTacoPlated(args.gamedata);
+                    SetupSteakTaco();
+                    SetupSteakTacoPlated(args.gamedata);
+                    FishTacoShellProvider();
+                }
+                AdjustLocoMoco();
+                RemoveCroquettePot();
+                MakeGrilledToppingsActive();
+                RemoveModdedKitchenSidesCB();
             };
+        }
+        
+        private void RemoveModdedKitchenSidesCB()
+        {
+            Item baconSide = (Item)GDOUtils.GetCustomGameDataObject(-1802504995)?.GameDataObject;
+            if (baconSide != null)
+            {
+                UnityEngine.Object.Destroy(baconSide.Prefab.GetChild("Colour Blind"));
+                Item cornbreadSide = (Item)GDOUtils.GetCustomGameDataObject(962219110)?.GameDataObject;
+                UnityEngine.Object.Destroy(cornbreadSide.Prefab.GetChild("Colour Blind"));
+                Item macAndCheese = (Item)GDOUtils.GetCustomGameDataObject(1052987967)?.GameDataObject;
+                UnityEngine.Object.Destroy(macAndCheese.Prefab.GetChild("Colour Blind"));
+                Item milkSide = (Item)GDOUtils.GetCustomGameDataObject(-142832655)?.GameDataObject;
+                UnityEngine.Object.Destroy(milkSide.Prefab.GetChild("Colour Blind"));
+            }
+        }
+        
+        private void RemoveCroquettePot()
+        {
+            Dish Croquette = (Dish)GDOUtils.GetCustomGameDataObject(-1708408715)?.GameDataObject;
+            if (Croquette != null)
+            {
+                Croquette.MinimumIngredients.Remove((Item)GDOUtils.GetExistingGDO(ItemReferences.Pot));
+            }
+            Croquette.IsUnlockable = true;
+        }
+        private void MakeGrilledToppingsActive()
+        {
+            Dish toppingsCard = (Dish)GDOUtils.GetCustomGameDataObject(-444144252)?.GameDataObject;
+            if (toppingsCard != null)
+            {
+                toppingsCard.IsUnlockable = true;
+                ItemGroup platedGrilledToppings = (ItemGroup)GDOUtils.GetCustomGameDataObject(-312817740)?.GameDataObject;
+                platedGrilledToppings.Prefab.GetChild("Tomato/Tomato Sliced/Liquid").GetComponent<MeshRenderer>().materials = new Material[] { MaterialUtils.GetExistingMaterial("Tomato Flesh") };
+                platedGrilledToppings.Prefab.GetChild("Tomato/Tomato Sliced/Inner").GetComponent<MeshRenderer>().materials = new Material[] { MaterialUtils.GetExistingMaterial("Tomato Flesh 2") };
+                platedGrilledToppings.Prefab.GetChild("Tomato/Tomato Sliced/Skin").GetComponent<MeshRenderer>().materials = new Material[] { MaterialUtils.GetExistingMaterial("Tomato") };
+
+                platedGrilledToppings.Prefab.GetChild("Tomato/Tomato Sliced (1)/Liquid").GetComponent<MeshRenderer>().materials = new Material[] { MaterialUtils.GetExistingMaterial("Tomato Flesh") };
+                platedGrilledToppings.Prefab.GetChild("Tomato/Tomato Sliced (1)/Inner").GetComponent<MeshRenderer>().materials = new Material[] { MaterialUtils.GetExistingMaterial("Tomato Flesh 2") };
+                platedGrilledToppings.Prefab.GetChild("Tomato/Tomato Sliced (1)/Skin").GetComponent<MeshRenderer>().materials = new Material[] { MaterialUtils.GetExistingMaterial("Tomato") };
+            }
+
+        }
+
+        private void AdjustLocoMoco()
+        {
+            ItemGroup LM = (ItemGroup)GDOUtils.GetCustomGameDataObject(-180553593)?.GameDataObject;
+            if (LM != null)
+            {
+                LM.Prefab.GetChild("BurgerPatty").transform.localPosition = new Vector3(-0.1084f, -0.0284f, -0.1193f);
+                LM.Prefab.GetChild("BurgerPatty").transform.rotation = Quaternion.Euler(new Vector3(23.1885f, 171.9505f, 188.0495f));
+                LM.Prefab.GetChild("BurgerPatty").transform.localScale = new Vector3(125f, 125f, 125f);
+            }
+            ItemGroup ES = (ItemGroup)GDOUtils.GetCustomGameDataObject(451680149)?.GameDataObject;
+            if (ES != null)
+            {
+                UnityEngine.Object.Destroy(ES.Prefab.GetChild("Colour Blind"));
+                UnityEngine.Object.Destroy(ES.Prefab.GetChild("Colour Blind"));
+            }
         }
 
         private void FixFishProvider()
         {
-            Appliance provider = GetModdedGDO<Appliance, FilletProvider>();
+            Appliance provider = (Appliance)GDOUtils.GetCustomGameDataObject(-1551076761)?.GameDataObject;
+            provider.Name = "Fish Fillet Provider";
+            provider.IsPurchasable = true;
+            provider.SellOnlyAsDuplicate = true;
+            provider.Description = "Provides Fish Fillets";
             provider.Properties.Clear();
             provider.Properties.Add(KitchenPropertiesUtils.GetUnlimitedCItemProvider(KitchenLib.References.ItemReferences.FishFillet));
             provider.Prefab = Bundle.LoadAsset<GameObject>("FilletProvider");
@@ -124,9 +186,27 @@ namespace KitchenMyMod
                 vfx.visualEffectAsset = asset;
             }
         }
+        private void FishTacoShellProvider()
+        {
+            
+            Appliance provider = (Appliance)GDOUtils.GetCustomGameDataObject(-769835599)?.GameDataObject;
+            provider.IsPurchasable = true;
+            provider.SellOnlyAsDuplicate = true;
+            provider.Name = "Taco Shells Provider";
+            provider.Description = "Provides Taco Shells";
+            provider.Prefab = Bundle.LoadAsset<GameObject>("provider - shells");
+            for(int i = 1; i < 4; i++)
+            {
+                provider.Prefab.ApplyMaterialToChild($"Crate/Crate{i}", "Wood - Default");
+            }
+            for (int i = 1; i < 8; i++)
+            {
+                provider.Prefab.ApplyMaterialToChild($"Shell{i}", "Pie - Mushroom");
+            }
+        }
         private void SetupFishTaco()
         {
-            ItemGroup ft = GetModdedGDO<ItemGroup, Tacos_Fish>();
+            ItemGroup ft = (ItemGroup)GDOUtils.GetCustomGameDataObject(-590894475)?.GameDataObject;
             ft.Prefab = Bundle.LoadAsset<GameObject>("fish tacos");
             GameObject tacos = ft.Prefab.GetChild("Fish Tacos");
             for (int i = 1; i <= 3; i++)
@@ -148,7 +228,7 @@ namespace KitchenMyMod
         private void SetupFishTacoPlated(GameData pBuildGameData)
         {
 
-            ItemGroup ft = GetModdedGDO<ItemGroup, Tacos_Fish_Plated>();
+            ItemGroup ft = (ItemGroup)GDOUtils.GetCustomGameDataObject(834629987)?.GameDataObject;
             ft.Prefab = Bundle.LoadAsset<GameObject>("fish tacos - plated");
             GameObject tacos = ft.Prefab.GetChild("Fish Tacos");
             for (int i = 1; i <= 3; i++)
@@ -166,14 +246,14 @@ namespace KitchenMyMod
             if (grp == null) grp = ft.Prefab.AddComponent<ItemGroupView>();
             GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
             ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
-            ComponentAccesserUtil.AddColourBlindLabels(grp, (GetModdedGDO<ItemGroup, Tacos_Fish>(), "FT"));
+            ComponentAccesserUtil.AddColourBlindLabels(grp, ((ItemGroup)GDOUtils.GetCustomGameDataObject(-590894475)?.GameDataObject, "FT"));
             ItemGroupViewUtils.AddSideContainer(pBuildGameData, ft, grp);
 
         }
 
         private void SetupChickenTaco()
         {
-            ItemGroup ft = GetModdedGDO<ItemGroup, Tacos_Chicken>();
+            ItemGroup ft = (ItemGroup)GDOUtils.GetCustomGameDataObject(1163340210)?.GameDataObject;
             ft.Prefab = Bundle.LoadAsset<GameObject>("chicken tacos");
             GameObject tacos = ft.Prefab.GetChild("Chicken Tacos");
             for (int i = 1; i <= 3; i++)
@@ -196,7 +276,7 @@ namespace KitchenMyMod
         private void SetupChickenTacoPlated(GameData pBuildGameData)
         {
 
-            ItemGroup ft = GetModdedGDO<ItemGroup, Tacos_Chicken_Plated>();
+            ItemGroup ft = (ItemGroup)GDOUtils.GetCustomGameDataObject(423194712)?.GameDataObject;
             ft.Prefab = Bundle.LoadAsset<GameObject>("chicken tacos - plated");
 
             GameObject tacos = ft.Prefab.GetChild("Chicken Tacos");
@@ -217,7 +297,7 @@ namespace KitchenMyMod
             if (grp == null) grp = ft.Prefab.AddComponent<ItemGroupView>();
             GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
             ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
-            ComponentAccesserUtil.AddColourBlindLabels(grp, (GetModdedGDO<ItemGroup, Tacos_Chicken>(), "CT"));
+            ComponentAccesserUtil.AddColourBlindLabels(grp, ((ItemGroup)GDOUtils.GetCustomGameDataObject(1163340210)?.GameDataObject, "CT"));
             ItemGroupViewUtils.AddSideContainer(pBuildGameData, ft, grp);
 
 
@@ -225,7 +305,7 @@ namespace KitchenMyMod
 
         private void SetupPorkTaco()
         {
-            ItemGroup ft = GetModdedGDO<ItemGroup, Tacos_Pork>();
+            ItemGroup ft = (ItemGroup)GDOUtils.GetCustomGameDataObject(735743015)?.GameDataObject;
             ft.Prefab = Bundle.LoadAsset<GameObject>("pork tacos");
             GameObject tacos = ft.Prefab.GetChild("Pork Tacos");
             for (int i = 1; i <= 3; i++)
@@ -246,7 +326,7 @@ namespace KitchenMyMod
         private void SetupPorkTacoPlated(GameData pBuildGameData)
         {
 
-            ItemGroup ft = GetModdedGDO<ItemGroup, Tacos_Pork_Plated>();
+            ItemGroup ft = (ItemGroup)GDOUtils.GetCustomGameDataObject(59314697)?.GameDataObject;
             ft.Prefab = Bundle.LoadAsset<GameObject>("pork tacos - plated");
 
             GameObject tacos = ft.Prefab.GetChild("Pork Tacos");
@@ -264,14 +344,14 @@ namespace KitchenMyMod
             if (grp == null) grp = ft.Prefab.AddComponent<ItemGroupView>();
             GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
             ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
-            ComponentAccesserUtil.AddColourBlindLabels(grp, (GetModdedGDO<ItemGroup, Tacos_Pork>(), "PT"));
+            ComponentAccesserUtil.AddColourBlindLabels(grp, ((ItemGroup)GDOUtils.GetCustomGameDataObject(735743015)?.GameDataObject, "PT"));
             ItemGroupViewUtils.AddSideContainer(pBuildGameData, ft, grp);
 
         }
 
         private void SetupSteakTaco()
         {
-            ItemGroup ft = GetModdedGDO<ItemGroup, Tacos_Steak>();
+            ItemGroup ft = (ItemGroup)GDOUtils.GetCustomGameDataObject(1939936514)?.GameDataObject;
             ft.Prefab = Bundle.LoadAsset<GameObject>("steak tacos");
             GameObject tacos = ft.Prefab.GetChild("Steak Tacos");
             for (int i = 1; i <= 3; i++)
@@ -290,7 +370,7 @@ namespace KitchenMyMod
         private void SetupSteakTacoPlated(GameData pBuildGameData)
         {
 
-            ItemGroup ft = GetModdedGDO<ItemGroup, Tacos_Steak_Plated>();
+            ItemGroup ft = (ItemGroup)GDOUtils.GetCustomGameDataObject(1362052740)?.GameDataObject;
             ft.Prefab = Bundle.LoadAsset<GameObject>("steak tacos - plated");
             GameObject tacos = ft.Prefab.GetChild("Steak Tacos");
             for (int i = 1; i <= 3; i++)
@@ -306,7 +386,7 @@ namespace KitchenMyMod
             if (grp == null) grp = ft.Prefab.AddComponent<ItemGroupView>();
             GameObject clonedColourBlind = ColorblindUtils.cloneColourBlindObjectAndAddToItem(ft);
             ColorblindUtils.setColourBlindLabelObjectOnItemGroupView(grp, clonedColourBlind);
-            ComponentAccesserUtil.AddColourBlindLabels(grp, (GetModdedGDO<ItemGroup, Tacos_Steak>(), "ST"));
+            ComponentAccesserUtil.AddColourBlindLabels(grp, ((ItemGroup)GDOUtils.GetCustomGameDataObject(1939936514)?.GameDataObject, "ST"));
             ItemGroupViewUtils.AddSideContainer(pBuildGameData, ft, grp);
 
         }
@@ -316,9 +396,6 @@ namespace KitchenMyMod
             private static FieldInfo componentGroupField = ReflectionUtils.GetField<ItemGroupView>("ComponentGroups");
             private static FieldInfo componentLabelsField = ReflectionUtils.GetField<ItemGroupView>("ComponentLabels");
             private static FieldInfo labelsField = ReflectionUtils.GetField<ItemGroup>("Labels");
-
-
-
 
             public static void AddComponent(ItemGroupView viewToAddTo, params (Item item, GameObject gameObject)[] addedGroups)
             {

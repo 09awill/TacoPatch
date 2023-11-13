@@ -1,0 +1,304 @@
+{
+  "Files": [
+    {
+      "Name": "cab-35079ea450d3f4cf9611fb2c5041696e",
+      "Assets": [
+        {
+          "PathID": -9171112982237787267,
+          "Name": "Cylinder",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -8997057039391932293,
+          "Name": "Bowl",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -8306775253846954947,
+          "Name": "Onion",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -8089894304068040523,
+          "Name": "Seaweed (1)",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -8078697598672591146,
+          "Name": "SpamCookedPortion",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -7922180944766121179,
+          "Name": "RiceBlocks",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -7309485169363158626,
+          "Name": "GravyPortion4",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -7131792326173082918,
+          "Name": "Spam Can.001",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -6851475211608983488,
+          "Name": "Plate",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -6243823741754473996,
+          "Name": "BurgerPatty",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -6054521863810585664,
+          "Name": "Plane.001",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -5953719559586518530,
+          "Name": "SpamCookedPortion",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -5926678597090965076,
+          "Name": "SpamSlice6",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -5388111450358097407,
+          "Name": "SpamSlice4",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -5036560093492350246,
+          "Name": "RiceMound",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -4515790641780406129,
+          "Name": "SpamSlice2",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -4290814549464301253,
+          "Name": "SpamSlice3",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -3860658819764339902,
+          "Name": "RiceBlocks",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -3560084345534191901,
+          "Name": "SpamSlice1",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -3089827029233747261,
+          "Name": "Plane",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -3039094297473510742,
+          "Name": "Flour",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -2494068279859685580,
+          "Name": "Crate.001",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -2397259922010205389,
+          "Name": "SpamCookedPortion.002",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -1736111664143047496,
+          "Name": "RiceMound",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -1357632398790979363,
+          "Name": "EggYolk",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -809728129771605246,
+          "Name": "Gravy",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -777403791922363958,
+          "Name": "Gravy",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": -680867687139364587,
+          "Name": "Onion",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 53366000339831067,
+          "Name": "SpamRawPortion",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 164639938079509244,
+          "Name": "Plane.001",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 1261516449433964436,
+          "Name": "GravyPortion3",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 1438352442945760368,
+          "Name": "Cube",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 1642404093754481634,
+          "Name": "GravyPortion1",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 2156048775333156380,
+          "Name": "Milk",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 2275301148294324527,
+          "Name": "RiceMound",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 2579929081036230428,
+          "Name": "SpamCookedPortion",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 2736334764353448140,
+          "Name": "Spam Can",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 2900563035576273443,
+          "Name": "Plane",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 3118012413775222257,
+          "Name": "Plate",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 3359893182686963360,
+          "Name": "Seaweed",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 3592944677271604185,
+          "Name": "RiceBlocks",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 3723375060052433984,
+          "Name": "SpamSlice5",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 3901971569121981228,
+          "Name": "SpamSlice8",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 4368124577193274990,
+          "Name": "Cylinder",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 4907723379973374066,
+          "Name": "Spam Can",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 4935066379985034018,
+          "Name": "SpamSlice7",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 4973170433350949869,
+          "Name": "SpamCookedPortion.001",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 5377341538156893476,
+          "Name": "Cylinder.003",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 5452479674263711306,
+          "Name": "Cylinder",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 6466973553502256947,
+          "Name": "SpamCookedPortion.001",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 6806226085990745962,
+          "Name": "EggWhites",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 7108940424108465774,
+          "Name": "Cylinder.003",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 7126892733690578950,
+          "Name": "GravyPortion2",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 7357062869621857781,
+          "Name": "Plate",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 7485239462789840237,
+          "Name": "Bowl",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 7675222408539529109,
+          "Name": "SpamCookedPortion",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 8218065525466958739,
+          "Name": "Crate",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 8348427519562568930,
+          "Name": "SpamCookedPortion",
+          "Type": "Mesh"
+        },
+        {
+          "PathID": 8813907174707442882,
+          "Name": "Broth",
+          "Type": "Mesh"
+        }
+      ]
+    }
+  ]
+}
